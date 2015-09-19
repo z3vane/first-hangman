@@ -7,6 +7,15 @@
 #include <cctype>
 #include <boost/algorithm/string.hpp>
 
+/**
+ * This is a simple hangman game with functions like auto-deleting the game and some other stuff
+ * (to do:
+ *  - "Do you want to play again? 'do while'?"
+ *  - If there are more letters entered than in the word, ignore them.)
+ * @since 15.9.2015
+ * @author Ilya Slobodskoy
+ */
+
 using namespace std;
 
 int main(int argc, char **argv)
@@ -40,7 +49,7 @@ int main(int argc, char **argv)
 		char guess;
 		cout << "\n\nEnter your guess: ";
 		cin >> guess;
-		guess = toupper(guess); //make uppercase since secret word in uppercase
+		guess = toupper(guess); // make uppercase since the secret word is in uppercase
 
         	while (used.find(guess) != string::npos)
         	{
@@ -91,7 +100,7 @@ int main(int argc, char **argv)
 	cout<<"Your rating: ";
 	cin>>rate;
 
-	switch (rate)	// easier rating system
+	switch (rate)	// rating system
 	{
 		case 1: cout<<"We are so glad to hear that! thanks for the positive feedback!\n"; break;
 		case 2: cout<<"We'll do better next time, thanks for your feedback!\n"; break;
@@ -99,33 +108,31 @@ int main(int argc, char **argv)
 		default: cout<<"Haha funny ;)\n"; break;
 	}
 
-/*	if (rate == 1) {
-		cout<<"\nWe are so glad to hear that! thanks for the positive feedback!\n" << endl;
-	}
-	else if (rate == 2) {
-		cout<<"\nWe'll do better next time, thanks for your feedback!\n" << endl;
-	}
-	else if (rate == 3) {
-		cout<<"\nWe are terribly sorry about that, we'll do better next time\n" << endl;
-	}
-	else {
-		cout<<"\nHaha, you're funny.\n" << endl;
-	}*/
-
-	cout<<"Do you want to remove this game? Y/N ";
-
-	// declare strings...
+	// declare strings (compare these strings to the one the user writes no matter if they are uppercase), maybe there is a better way.
 	string removal;
-	string removal_long = "yes";
-	string removal_short = "y";
+	string snake;
+	string yes_long = "yes";
+	string yes_short = "y";
 
+	// removal
+	cout<<"Do you want to remove this game? Y/N ";
 	cin>>removal;
-
-	// case insensitive string comparing
-	if (boost::iequals(removal, removal_long) || boost::iequals(removal, removal_short) ) {
+	// case insensitive string comparison
+	if (boost::iequals(removal, yes_long) || boost::iequals(removal, yes_short)) {
 		cout<<"\nOk =( removing the file..." << endl << endl;
 		remove(argv[0]); // remove the file
 	}
+        else { cout<<"\nThat's kind of you." << endl;
+	}
+
+	// Play snake?
+	cout<<"Do you want to play Snake? Y/N ";
+	cin>>snake;
+        if (boost::iequals(snake, yes_long) || boost::iequals(snake, yes_short)) {
+        	system("./snake"); // execute snake
+        }
+        else { cout<<"\nAlright." << endl;
+        }
 
 	system("echo 'bye bye :*'"); // system
 	return 0;
